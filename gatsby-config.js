@@ -6,7 +6,7 @@ module.exports = {
     title: `gatsby-your-live-in-weeks`,
     siteUrl: `https://www.yourdomain.tld`
   },
-  plugins: ["gatsby-plugin-google-gtag", "gatsby-plugin-sitemap", {
+  plugins: [ "gatsby-plugin-sitemap","gatsby-plugin-postcss", {
     resolve: 'gatsby-plugin-manifest',
     options: {
       "icon": "src/images/icon.png"

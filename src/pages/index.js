@@ -1,176 +1,165 @@
-import * as React from "react"
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import DatePicker from "../components/DatePicker";
+import arrow from "../images/arrow.svg";
+import { toJpeg } from "html-to-image";
+import logo from "../images/guarapo_logo.svg";
 
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-const headingAccentStyles = {
-  color: "#663399",
-}
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-}
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-}
+function Main() {
+  const Years = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+  const Weeks = [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50,]
+  const [userWeeks, setUserWeeks] = useState(0);
+  const [totalWeeks, setTotalWeeks] = useState([]);
+  const ref = useRef(null);
 
-const linkStyle = {
-  color: "#8954A8",
-  fontWeight: "bold",
-  fontSize: 16,
-  verticalAlign: "5%",
-}
+  useEffect(() => {
+    let row = [];
+    for (let i = 0; i < 4680; i++) {
+      if (i < userWeeks) {
+        row.push(
+          <div key={i} className="square black">
+            <div className="content"></div>
+          </div>
+        )
+      }
+      else{
+      row.push(
+        <div key={i} className="square">
+          <div className="content"></div>
+        </div>
+      )}
+    }
+    setTotalWeeks(row);
+    
+  }, [userWeeks]);
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: "none",
-  marginBottom: 24,
-}
+  const onButtonClick = useCallback(() => {
+    if (ref.current === null) {
+      return;
+    }
+    toJpeg(ref.current, { cacheBust: true, backgroundColor: "#ffffff" })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "my-live-in-weeks.jpeg";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ref]);
 
-const descriptionStyle = {
-  color: "#232129",
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-}
-
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-}
-
-const badgeStyle = {
-  color: "#fff",
-  backgroundColor: "#088413",
-  border: "1px solid #088413",
-  fontSize: 11,
-  fontWeight: "bold",
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: "4px 6px",
-  display: "inline-block",
-  position: "relative",
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-}
-
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/getting-started/",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: "#E95800",
-  },
-  {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: "#BC027F",
-  },
-  {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
-    description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
-  },
-]
-
-const IndexPage = () => {
   return (
-    <main style={pageStyles}>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! 🎉🎉🎉</span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time. 😎
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
+    <div className="container">
+      {/* Header */}
+      <div className="row justify-content-center">
+        <div className="header col-12 d-flex flex-wrap justify-content-around align-items-center">
+          <span>
+          <i className="fa-solid fa-2x fa-calendar-days me-3"></i><h2 className="header-title">90 YEAR LIFE IN WEEKS</h2>
+          </span>
+          <span>
+          <a className="text-secondary" href="https://instagram.com/guarapomedia" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-instagram me-3" aria-label="instagram"></i></a>
+          <a className="text-secondary"  href="https://twitter.com/guarapomedia" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-twitter me-3"  aria-label="twitter"></i></a>
+          <a className="text-secondary"  href="https://github.com/waltermazzariol/gatsby-your-live-in-weeks" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-github" aria-label="github"></i></a>
+          </span>
+        </div>
+        <div className="col-12">
+          <hr />
+        </div>
+
+        {/* Date picker */}
+        <div className="col-12 col-md-3 mb-5 mt-4">
+          <DatePicker setDate={setUserWeeks} />
+        </div>
+
+        <div className="col-12">
+          <hr />
+        </div>
+      </div>
+
+      {/* Matrix */}
+      <div ref={ref}>
+        <div className="row g-0  mt-5 justify-content-center text-center">
+          <div className="col-12">
+            <h1 className="mb-5">MY LIVE IN WEEKS</h1>
+          </div>
+          <div className="wrapper col-11 col-lg-8">
+            <div className="week-title">
+              Week of the Year <img src={arrow} alt="arrow" />
+            </div>
+           
+            <div className="weeks">
+            {Weeks.map((key) => (
+              <div key={key} className="week-number">
+                {key}
+              </div>
+            ))}
+            </div>
+            <div className="year-title">
+              <img src={arrow} className="arrow-rotate" alt="arrow" /> Age
+            </div>
+          </div>
+          <div className="w-100"></div>
+          <div className="wrapper col-1 years">
+            {Years.map((key) => (
+              <div key={key} className="year-number">
+                {key}
+              </div>
+            ))}
+          </div>
+          <div className="wrapper col-10 col-lg-8">
+            <div className="squares">{totalWeeks.map((key) => key)}</div>
+          </div>
+          <div className="col-12">
+            <h2 className="text-center my-5 fw-semibold">You only live once</h2>
+            <hr />
+          </div>
+          <div className="w-100"></div>
+          <div className="col-12 col-md-3 justify-content-center">
+            <button className="btn btn-primary mt-3" onClick={onButtonClick}>
+              Download Image for print →
+            </button>
+            
+          </div>
+        </div>
+      </div>
+      <div className="col-12 my-5">
+      <p className="text-secondary"></p>
+        <div className="text-center text-secondary">
+        <p>Based on the article <a href="https://waitbutwhy.com/2014/05/life-weeks.html">Life in Weeks</a> - 
+          Copyright &copy; 2020 - {new Date().getFullYear()}
+          </p><p><a
+            href="https://guarapomedia.com"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            {docLink.text}
+            <img src={logo} className="ms-3 icon-logo" alt="Guarapo Media" />
           </a>
-        </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-              >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
-                </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
-    </main>
-  )
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default IndexPage
+export default Main;
 
-export const Head = () => <title>Home Page</title>
+export const Head = () => (
+  <>
+    <title>Your Life in 90 Year</title>
+    <meta name="title" content="Your Life in 90 Year" />
+    <meta name="description" content="Know how many weeks have you live" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="" />
+    <meta property="og:title" content="Your Life in 90 Year" />
+    <meta property="og:description" content="Know how many weeks have you live" />
+    <meta property="og:image" content="" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="" />
+    <meta property="twitter:title" content="Your Life in 90 Year" />
+    <meta property="twitter:description" content="Know how many weeks have you live" />
+    <meta property="twitter:image" content="" />
+  </>
+)
