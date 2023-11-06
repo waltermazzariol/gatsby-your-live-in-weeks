@@ -143,7 +143,7 @@ function Main() {
 
 export default Main;
 
-export const Head = () => (
+export function Head() {
   <>
     {(typeof window !== "undefined") ? ReactGA.initialize("G-LLN4J3R6S9") : ""}
     {(typeof window !== "undefined") ? ReactGA.send({ hitType: "pageview", page: "/", title: "Your Life in 90 Year" }): ""}
@@ -167,4 +167,4 @@ export const Head = () => (
     <meta property="twitter:description" content="Know how many weeks have you live" />
     <meta property="twitter:image" content="https://90yearlifeinweeks.guarapomedia.com/seo.webp" />
   </>
-)
+}
