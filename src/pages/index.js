@@ -145,21 +145,27 @@ export default Main;
 
 export const Head = () => (
   <>
+    {(typeof window !== "undefined" && process.env.GATSBY_WORDPRESS_HOST!== 'dev' ) ?
+        ReactGA.initialize("G-LLN4J3R6S9") : ""
+    }
     <title>Your Life in 90 Year</title>
     <meta name="title" content="Your Life in 90 Year" />
     <meta name="description" content="Know how many weeks have you live" />
+    <meta httpEquiv="Content-Language" content="en" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="" />
+    <meta property="og:url" content="https://90yearlifeinweeks.guarapomedia.com/" />
     <meta property="og:title" content="Your Life in 90 Year" />
     <meta property="og:description" content="Know how many weeks have you live" />
-    <meta property="og:image" content="" />
+    <meta property="og:image" content="https://90yearlifeinweeks.guarapomedia.com/seo.webp" />
+    <meta property= "og:image:width" content="1280" />
+    <meta property= "og:image:height" content="720" />
 
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="" />
+    <meta property="twitter:url" content="https://90yearlifeinweeks.guarapomedia.com/" />
     <meta property="twitter:title" content="Your Life in 90 Year" />
     <meta property="twitter:description" content="Know how many weeks have you live" />
-    <meta property="twitter:image" content="" />
+    <meta property="twitter:image" content="https://90yearlifeinweeks.guarapomedia.com/seo.webp" />
   </>
 )
