@@ -145,9 +145,8 @@ export default Main;
 
 export const Head = () => (
   <>
-    {(typeof window !== "undefined" && process.env.GATSBY_WORDPRESS_HOST!== 'dev' ) ?
-        ReactGA.initialize("G-LLN4J3R6S9") : ""
-    }
+    {(typeof window !== "undefined") ? ReactGA.initialize("G-LLN4J3R6S9") : ""}
+    {(typeof window !== "undefined") ? ReactGA.send({ hitType: "pageview", page: "/", title: "Your Life in 90 Year" }): ""}
     <title>Your Life in 90 Year</title>
     <meta name="title" content="Your Life in 90 Year" />
     <meta name="description" content="Know how many weeks have you live" />
