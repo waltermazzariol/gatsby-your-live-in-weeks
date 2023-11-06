@@ -3,6 +3,12 @@ import DatePicker from "../components/DatePicker";
 import arrow from "../images/arrow.svg";
 import { toJpeg } from "html-to-image";
 import logo from "../images/guarapo_logo.svg";
+import ReactGA from "react-ga4"
+
+if (typeof window !== "undefined" ) {
+  ReactGA.initialize("G-LLN4J3R6S9");
+  ReactGA.send({ hitType: "pageview", page: window.location.pathname + window.location.search });
+}
 
 function Main() {
   const Years = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
@@ -58,7 +64,7 @@ function Main() {
           </span>
           <span>
           <a className="text-secondary" href="https://instagram.com/guarapomedia" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-instagram me-3" aria-label="instagram"></i></a>
-          <a className="text-secondary"  href="https://twitter.com/guarapomedia" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-twitter me-3"  aria-label="twitter"></i></a>
+          <a className="text-secondary"  href="https://twitter.com/guarapomedia" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-x-twitter me-3"  aria-label="twitter"></i></a>
           <a className="text-secondary"  href="https://github.com/waltermazzariol/gatsby-your-live-in-weeks" target="_blank" rel="noreferrer"><i className="fa-brands fa-2x fa-github" aria-label="github"></i></a>
           </span>
         </div>
@@ -144,9 +150,8 @@ function Main() {
 export default Main;
 
 export function Head() {
+  return (
   <>
-    {(typeof window !== "undefined") ? ReactGA.initialize("G-LLN4J3R6S9") : ""}
-    {(typeof window !== "undefined") ? ReactGA.send({ hitType: "pageview", page: "/", title: "Your Life in 90 Year" }): ""}
     <title>Your Life in 90 Year</title>
     <meta name="title" content="Your Life in 90 Year" />
     <meta name="description" content="Know how many weeks have you live" />
@@ -167,4 +172,4 @@ export function Head() {
     <meta property="twitter:description" content="Know how many weeks have you live" />
     <meta property="twitter:image" content="https://90yearlifeinweeks.guarapomedia.com/seo.webp" />
   </>
-}
+)}
